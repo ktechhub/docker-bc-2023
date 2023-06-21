@@ -4,10 +4,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: app
     ports:
       - 8000:8000
     depends_on:
       - db
+    networks:
+      - dc_network
   db:
     image: mysql:latest
     restart: always
@@ -18,7 +21,15 @@ services:
       MYSQL_DATABASE: mydatabase
       MYSQL_USER: myuser
       MYSQL_PASSWORD: mypassword
+    env_file:
+      - ./.env
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - dc_network
+
 volumes:
   db_data:
+
+networks:
+  dc_network:
