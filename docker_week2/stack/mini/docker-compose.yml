@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - 80:80
+    networks:
+      - mynetwork
+  
+  db:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: mysecretpassword
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: overlay
+
+volumes:
+  db_data:

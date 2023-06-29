@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  app:
+    image: docker_week_2
+    ports:
+      - 8000:8000
+    environment:
+      - DB_HOST=db
+    networks:
+      - dc_network
+    secrets:
+      - db_password
+
+networks:
+  dc_network:
+    driver: overlay
+
+secrets:
+  db_password:
+    external: true
+
+
